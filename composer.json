@@ -1,0 +1,29 @@
+{
+    "name": "soroosh/finnotech-client",
+    "description": "https://www.finnotech.ir/ Client for laravel",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Soroosh\\FinnotechClient\\": "src/"
+        },
+        "laravel": {
+            "providers": [
+                "Soroosh\\FinnotechClient\\FinnotechClientServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Soroosh Tanzadeh",
+            "email": "soroosh@ternobo.com"
+        }
+    ],
+    "require-dev": {
+        "laravel/laravel": "^8.6",
+        "phpunit/phpunit": "^9.5"
+    },
+    "require": {
+        "league/oauth2-client": "^2.6"
+    }
+}
