@@ -1,12 +1,13 @@
 {
     "name": "soroosh/finnotech-client",
     "description": "https://www.finnotech.ir/ Client for laravel",
-    "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "Soroosh\\FinnotechClient\\": "src/"
-        },
+        }
+    },
+    "extra": {
         "laravel": {
             "providers": [
                 "Soroosh\\FinnotechClient\\FinnotechClientServiceProvider"

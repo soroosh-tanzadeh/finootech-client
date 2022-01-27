@@ -25,9 +25,9 @@ class CreateFinnotechClientsTable extends Migration
             $table->bigInteger("lifeTime");
             $table->json("deposits");
             $table->string("clientId");
-            $table->string("value");
-            $table->string("status");
-            $table->string("refreshToken");
+            $table->text("value");
+            $table->text("refreshToken");
+            $table->string("bank");
             $table->timestamps();
             $table->softDeletes();
         });
