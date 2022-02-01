@@ -37,6 +37,7 @@ class BankAccountService
         }
         return $this->client->createAuthorizedRequest("refund:deposit-card:post")
             ->withBody(json_encode($requestBody), "application/json")
-            ->post("/cardrefund/v2/clients/{$clientId}/depositToCard?trackId={$trackId}");
+            ->post("/cardrefund/v2/clients/{$clientId}/depositToCard?trackId={$trackId}")
+            ->json();
     }
 }
