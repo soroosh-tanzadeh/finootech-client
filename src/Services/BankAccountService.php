@@ -2,7 +2,6 @@
 
 namespace Soroosh\FinnotechClient\Services;
 
-use Illuminate\Http\Client\Response;
 use Soroosh\FinnotechClient\Models\Client;
 use Soroosh\FinnotechClient\FinnotechClient;
 use Soroosh\FinnotechClient\Exceptions\ClientNotFoundException;
@@ -17,7 +16,7 @@ class BankAccountService
         $this->client = $client;
     }
 
-    public function depositToCard($account, $card, $amount, $cif): Response
+    public function depositToCard($account, $card, $amount, $cif)
     {
         $traceNumber = uniqid(mt_rand(), true) . microtime(true);
         $trackId = Str::uuid();
