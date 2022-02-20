@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace Soroosh\FinnotechClient\Services;
 
 use Soroosh\FinnotechClient\FinnotechClient;
 use Illuminate\Support\Str;
