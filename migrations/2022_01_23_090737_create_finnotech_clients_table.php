@@ -16,18 +16,18 @@ class CreateFinnotechClientsTable extends Migration
     {
         Schema::create('finnotech_clients', function (Blueprint $table) {
             $table->id();
-            $table->json("scopes");
+            $table->json("scopes")->nullable();
             $table->bigInteger("monthlyCallLimitation")->default(10);
             $table->bigInteger("maxAmountPerTransaction")->default(350000);
-            $table->string("userId");
-            $table->string("creationDate");
-            $table->string("type");
-            $table->bigInteger("lifeTime");
-            $table->json("deposits");
-            $table->string("clientId");
+            $table->string("userId")->nullable();
+            $table->string("creationDate")->nullable();;
+            $table->string("type")->nullable();
+            $table->bigInteger("lifeTime")->nullable();
+            $table->json("deposits")->nullable();
+            $table->string("clientId")->nullable();
             $table->text("value");
-            $table->text("refreshToken");
-            $table->string("bank");
+            $table->text("refreshToken")->nullable();
+            $table->string("bank")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

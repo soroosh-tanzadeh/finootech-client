@@ -31,8 +31,8 @@ class CardService
     {
         $clientId = config("finnotech.client_id");
         $response = $this->client
-            ->createAuthorizedRequest("facility:card-to-iban:get")
-            ->get("/oak/v2/clients/${clientId}/ibanInquir", ["trackId" => Str::uuid(), "iban" => $IBAN])
+            ->createAuthorizedRequest("oak:iban-inquiry:get")
+            ->get("/oak/v2/clients/${clientId}/ibanInquiry", ["trackId" => Str::uuid(), "iban" => $IBAN])
             ->json();
         if ($response['status'] == "DONE") {
             return $response['result'];

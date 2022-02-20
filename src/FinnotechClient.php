@@ -28,7 +28,7 @@ class FinnotechClient
         return redirect($this->oauthProvider->getAuthorizationUrl($options));
     }
 
-    public function requestClientCredentialToken($scopes = [])
+    public function requestClientCredentialToken($nid, $scopes = [])
     {
         $client_id = config("finnotech.client_id");
         $client_secret = config("finnotech.client_secret");
@@ -37,9 +37,8 @@ class FinnotechClient
         ])
             ->withBody(json_encode([
                 "grant_type" => "client_credentials",
-                "bank" => config("finnotech.bank"),
-                "redirect_uri" => config("finnotech.redirect_uri"),
-                "scopes" => implode($scopes, ",")
+                "nid" => $nid,
+                "scopes" => implode(",", $scopes)
             ]), "application/json")
             ->post($this->oauthProvider->getBaseAccessTokenUrl([]));
         $data = $response->json();
