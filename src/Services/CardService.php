@@ -26,4 +26,30 @@ class CardService
         }
         return $response["error"];
     }
+
+    public function IBANInquiry($IBAN)
+    {
+        $clientId = config("finnotech.client_id");
+        $response = $this->client
+            ->createAuthorizedRequest("facility:card-to-iban:get")
+            ->get("/oak/v2/clients/${clientId}/ibanInquir", ["trackId" => Str::uuid(), "iban" => $IBAN])
+            ->json();
+        if ($response['status'] == "DONE") {
+            return $response['result'];
+        }
+        return $response['error'];
+    }
+
+    public function getIBAN($cardNumber)
+    {
+        $clientId = config("finnotech.client_id");
+        $response = $this->client
+            ->createAuthorizedRequest("facility:card-to-iban:get")
+            ->get("/facility/v2/clients/{$clientId}/cardToIban", ["trackId" => Str::uuid(), "version" => 2, "card" => $cardNumber])
+            ->json();
+        if ($response['status'] == "DONE") {
+            return $response['result'];
+        }
+        return $response['error'];
+    }
 }
