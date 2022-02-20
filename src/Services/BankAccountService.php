@@ -39,4 +39,28 @@ class BankAccountService
             ->post("/cardrefund/v2/clients/{$clientId}/depositToCard?trackId={$trackId}")
             ->json();
     }
+
+    public function transferToAnotherAccount($amount, $description, $accountOwnerFirstname, $accountOwnerLastname, $accountIBAN, $paymentId)
+    {
+        $trackId = "transfer_to_deposit_" . Str::uuid();
+        $clientId = config("finnotech.client_id");
+
+        $requestBody = [
+            "amount" => $amount,
+            "description" => $description,
+            "destinationFirstname" => $accountOwnerFirstname,
+            "destinationLastname" => $accountOwnerLastname,
+            "destinationNumber" => $accountIBAN,
+            "paymentNumber" => $paymentId
+        ];
+        $response  = $this->client->createAuthorizedRequest("oak:transfer-to:execute")
+            ->withBody(json_encode($requestBody), "application/json")
+            ->post("/oak/v2/clients/{$clientId}/transferTo?trackId={$trackId}");
+        if ($response['status'] == "DONE") {
+            $result = $response['result'];
+            $result['track_id'] = $trackId;
+            return $result;
+        }
+        return $response['error'];
+    }
 }
