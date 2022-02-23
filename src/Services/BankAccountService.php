@@ -7,15 +7,14 @@ use Soroosh\FinnotechClient\FinnotechClient;
 use Soroosh\FinnotechClient\Exceptions\ClientNotFoundException;
 use Illuminate\Support\Str;
 
-class BankAccountService
+/**
+ * Bank account related functions
+ */
+class BankAccountService extends Service
 {
-    private FinnotechClient $client;
-
-    public function __construct(FinnotechClient $client)
-    {
-        $this->client = $client;
-    }
-
+    /**
+     * Transfer money from $account to $card number
+     */
     public function depositToCard($account, $card, $amount, $cif)
     {
         $traceNumber = uniqid(mt_rand(), true) . microtime(true);
@@ -40,6 +39,9 @@ class BankAccountService
             ->json();
     }
 
+    /**
+     * Transfer from connected account to another bank-account using IBAN
+     */
     public function transferToAnotherAccount($amount, $description, $accountOwnerFirstname, $accountOwnerLastname, $accountIBAN, $paymentId)
     {
         $trackId = "transfer_to_deposit_" . Str::uuid();

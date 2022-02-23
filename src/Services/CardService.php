@@ -5,15 +5,17 @@ namespace Soroosh\FinnotechClient\Services;
 use Soroosh\FinnotechClient\FinnotechClient;
 use Illuminate\Support\Str;
 
-class CardService
+/**
+ * Card Related functions
+ */
+class CardService extends Service
 {
-    private FinnotechClient $client;
 
-    public function __construct(FinnotechClient $client)
-    {
-        $this->client = $client;
-    }
-
+    /**
+     * displays the card information by receiving the card number.
+     * 
+     * @param $cardNumber
+     */
     public function getCardInformation($cardNumber)
     {
         $clientId = config("finnotech.client_id");
@@ -27,6 +29,11 @@ class CardService
         return $response["error"];
     }
 
+    /**
+     * displays the Sheba number information.
+     * 
+     * @param $IBAN
+     */
     public function IBANInquiry($IBAN)
     {
         $clientId = config("finnotech.client_id");
@@ -40,6 +47,11 @@ class CardService
         return $response['error'];
     }
 
+    /**
+     * displays the Sheba number information by receiving the card number.
+     * 
+     * @param $cardNumber
+     */
     public function getIBAN($cardNumber)
     {
         $clientId = config("finnotech.client_id");
