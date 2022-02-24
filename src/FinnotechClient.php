@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use RuntimeException;
 use Soroosh\FinnotechClient\Exceptions\ClientNotFoundException;
 use Soroosh\FinnotechClient\Models\Client;
@@ -44,6 +45,8 @@ class FinnotechClient
         $data = $response->json();
         if ($data["status"] == "DONE") {
             $client = Client::create($data['result']);
+            $client->type = "CLIENT-CREDENTIAL";
+            $client->save();
             if ($json) {
                 return $client;
             }
@@ -113,9 +116,12 @@ class FinnotechClient
             ->post($this->oauthProvider->getBaseAccessTokenUrl([]));
         $data = $response->json();
         if ($data["status"] == "DONE") {
-            Client::create($data['result']);
+            $client = Client::create($data['result']);
+            $client->type = "CODE";
+            $client->save();
             return view("vendor.finnotech.bank-connected", ['status_color' => "status-done", "status_text" => "اتصال به حساب با موفقیت انجام شد"]);
         } else {
+            Log::debug("Finnotech Fail", $data);
             return view("vendor.finnotech.bank-connected", ['status_color' => "status-failed", "status_text" => "ایجاد توکن دسترسی به حساب بانکی ناموفق بود."]);
         }
     }

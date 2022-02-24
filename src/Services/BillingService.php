@@ -35,7 +35,29 @@ class BillingService extends Service
                 "parameter" => $parameter,
             ])->json();
         if (isset($response['status']) && $response['status'] == "DONE") {
-            return ["status" => true, "result" => $response["result"], "message" => "خطا در دریافت اطلاعات"];
+            return ["status" => true, "result" => $response["result"], "message" => null];
+        }
+        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
+    }
+
+    /**
+     * Pay Bill
+     * 
+     * @param $payId 
+     * @param $billId
+     */
+    public function billPayment($payId, $billId)
+    {
+        $clientId = config("finnotech.client_id");
+        $trackId = Str::uuid();
+        $response = $this->client
+            ->createAuthorizedRequest("oak:bill-account:execute")
+            ->post("/oak/v2/clients/{$clientId}/billPayment?trackId={$trackId}", [
+                "payId" => $payId,
+                "billId" => $billId
+            ])->json();
+        if (isset($response['status']) && $response['status'] == "DONE") {
+            return ["status" => true, "result" => $response["result"], "message" => null];
         }
         return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
     }

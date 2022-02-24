@@ -13,7 +13,7 @@ class CardService extends Service
 
     /**
      * displays the card information by receiving the card number.
-     * 
+     *
      * @param $cardNumber
      */
     public function getCardInformation($cardNumber)
@@ -24,14 +24,14 @@ class CardService extends Service
             ->get("/mpg/v2/clients/{$clientId}/cards/{$cardNumber}", ["trackId" => Str::uuid()])
             ->json();
         if ($response['status'] == "DONE") {
-            return $response['result'];
+            return ["status" => true, "result" => $response["result"], "message" => null];
         }
-        return $response["error"];
+        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
     }
 
     /**
      * displays the Sheba number information.
-     * 
+     *
      * @param $IBAN
      */
     public function IBANInquiry($IBAN)
@@ -42,14 +42,14 @@ class CardService extends Service
             ->get("/oak/v2/clients/${clientId}/ibanInquiry", ["trackId" => Str::uuid(), "iban" => $IBAN])
             ->json();
         if ($response['status'] == "DONE") {
-            return $response['result'];
+            return ["status" => true, "result" => $response["result"], "message" => null];
         }
-        return $response['error'];
+        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
     }
 
     /**
      * displays the Sheba number information by receiving the card number.
-     * 
+     *
      * @param $cardNumber
      */
     public function getIBAN($cardNumber)
@@ -60,8 +60,8 @@ class CardService extends Service
             ->get("/facility/v2/clients/{$clientId}/cardToIban", ["trackId" => Str::uuid(), "version" => 2, "card" => $cardNumber])
             ->json();
         if ($response['status'] == "DONE") {
-            return $response['result'];
+            return ["status" => true, "result" => $response["result"], "message" => null];
         }
-        return $response['error'];
+        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
     }
 }

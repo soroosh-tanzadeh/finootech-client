@@ -61,8 +61,8 @@ class BankAccountService extends Service
         if ($response['status'] == "DONE") {
             $result = $response['result'];
             $result['track_id'] = $trackId;
-            return $result;
+            return ["status" => true, "result" => $response["result"], "message" => null];
         }
-        return $response['error'];
+        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
     }
 }

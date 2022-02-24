@@ -5,6 +5,7 @@ namespace Soroosh\FinnotechClient;
 use Illuminate\Support\ServiceProvider;
 use Jobs\FinnotechClientMonitor;
 use League\OAuth2\Client\Provider\GenericProvider;
+use Soroosh\FinnotechClient\Facade\FinnotechOAuthProvider as FinnotechOAuthProviderFacade;
 
 class FinnotechClientServiceProvider extends ServiceProvider
 {
@@ -12,7 +13,7 @@ class FinnotechClientServiceProvider extends ServiceProvider
     {
         $urlEndpoint = config("finnotech.mode") == "sandbox" ? "https://sandboxapi.finnotech.ir" : "https://apibeta.finnotech.ir";
 
-        $this->app->when([FinnotechClient::class, FinnotechClientMonitor::class])
+        $this->app->when([FinnotechClient::class, FinnotechClientMonitor::class, FinnotechOAuthProviderFacade::class])
             ->needs(FinnotechOAuthProvider::class)
             ->give(function () use ($urlEndpoint) {
                 return new FinnotechOAuthProvider([
