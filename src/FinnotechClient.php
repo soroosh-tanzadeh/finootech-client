@@ -71,6 +71,7 @@ class FinnotechClient
         if ($client instanceof Client) {
             return $client;
         }
+        Log::debug("finnotech-client-error", "client not found");
         throw new ClientNotFoundException("Error while creating client", 503);
     }
 

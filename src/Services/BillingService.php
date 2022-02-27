@@ -35,9 +35,9 @@ class BillingService extends Service
                 "parameter" => $parameter,
             ])->json();
         if (isset($response['status']) && $response['status'] == "DONE") {
-            return ["status" => true, "result" => $response["result"], "message" => null];
+            return ["status" => true, "data" => $response["result"], "message" => null];
         }
-        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
+        return ["status" => false, "data" => null, "message" => $response["error"]['message']];
     }
 
     /**
@@ -57,8 +57,8 @@ class BillingService extends Service
                 "billId" => $billId
             ])->json();
         if (isset($response['status']) && $response['status'] == "DONE") {
-            return ["status" => true, "result" => $response["result"], "message" => null];
+            return ["status" => true, "data" => $response["result"], "message" => null];
         }
-        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
+        return ["status" => false, "data" => null, "message" => $response["error"]['message']];
     }
 }

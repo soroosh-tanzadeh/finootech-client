@@ -24,9 +24,9 @@ class CardService extends Service
             ->get("/mpg/v2/clients/{$clientId}/cards/{$cardNumber}", ["trackId" => Str::uuid()])
             ->json();
         if ($response['status'] == "DONE") {
-            return ["status" => true, "result" => $response["result"], "message" => null];
+            return ["status" => true, "data" => $response["result"], "message" => null];
         }
-        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
+        return ["status" => false, "data" => null, "message" => $response["error"]['message']];
     }
 
     /**
@@ -42,9 +42,9 @@ class CardService extends Service
             ->get("/oak/v2/clients/${clientId}/ibanInquiry", ["trackId" => Str::uuid(), "iban" => $IBAN])
             ->json();
         if ($response['status'] == "DONE") {
-            return ["status" => true, "result" => $response["result"], "message" => null];
+            return ["status" => true, "data" => $response["result"], "message" => null];
         }
-        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
+        return ["status" => false, "data" => null, "message" => $response["error"]['message']];
     }
 
     /**
@@ -60,8 +60,8 @@ class CardService extends Service
             ->get("/facility/v2/clients/{$clientId}/cardToIban", ["trackId" => Str::uuid(), "version" => 2, "card" => $cardNumber])
             ->json();
         if ($response['status'] == "DONE") {
-            return ["status" => true, "result" => $response["result"], "message" => null];
+            return ["status" => true, "data" => $response["result"], "message" => null];
         }
-        return ["status" => false, "result" => $response["error"], "message" => "خطا در دریافت اطلاعات"];
+        return ["status" => false, "data" => null, "message" => $response["error"]['message']];
     }
 }
