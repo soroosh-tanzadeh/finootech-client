@@ -53,6 +53,7 @@ class FinnotechClient
 
             return view("vendor.finnotech.bank-connected", ['status_color' => "status-done", "status_text" => "اتصال به حساب با موفقیت انجام شد"]);
         } else {
+            Log::debug("finnotech-client-error", $data);
             if ($json) {
                 return ["status" => false, "messages" => "Error while creating client"];
             }
@@ -70,7 +71,7 @@ class FinnotechClient
         if ($client instanceof Client) {
             return $client;
         }
-        throw new ClientNotFoundException("Client Not found", 503);
+        throw new ClientNotFoundException("Error while creating client", 503);
     }
 
     public function getClient($scope)
