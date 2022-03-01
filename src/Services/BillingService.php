@@ -5,6 +5,7 @@ namespace Soroosh\FinnotechClient\Services;
 use Soroosh\FinnotechClient\FinnotechClient;
 use Illuminate\Support\Str;
 use Soroosh\FinnotechClient\Exceptions\InvalidBillTypeException;
+use Soroosh\FinnotechClient\Models\BillingInquiry;
 
 /**
  * Billing related functions
@@ -27,14 +28,16 @@ class BillingService extends Service
             throw new InvalidBillTypeException(422);
         }
         $clientId = config("finnotech.client_id");
+        $trackId = Str::uuid();
         $response = $this->client
             ->createAuthorizedRequest("billing:cc-inquiry:get")
             ->get("/billing/v2/clients/{$clientId}/billingInquiry", [
-                "trackId" => Str::uuid(),
+                "trackId" => $trackId,
                 "type" => $type,
                 "parameter" => $parameter,
             ])->json();
         if (isset($response['status']) && $response['status'] == "DONE") {
+            BillingInquiry::create(array_merge($response["result"], ['track_id' => $trackId]));
             return ["status" => true, "data" => $response["result"], "message" => null];
         }
         return ["status" => false, "data" => null, "message" => $response["error"]['message']];

@@ -25,7 +25,7 @@ class FinnotechClientServiceProvider extends ServiceProvider
                 ]);
             });
 
-        $this->loadMigrationsFrom(__DIR__ . "/../migrations/2022_01_23_090737_create_finnotech_clients_table.php");
+        $this->loadMigrationsFrom(__DIR__ . "/../migrations/");
         $this->publishes([__DIR__ . "/../config/config.php" => config_path("finnotech.php")], ["finnotech-config"]);
         $this->publishes([__DIR__ . "/../views/bank-connected.blade.php" => resource_path("views/vendor/finnotech/bank-connected.blade.php")], ["finnotech-view"]);
     }
