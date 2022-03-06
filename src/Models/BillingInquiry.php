@@ -11,6 +11,7 @@ class BillingInquiry extends Model
     protected $fillable = [
         "Amount",
         "BillId",
+        "type",
         "PayId",
         "Date",
         "track_id"

@@ -14,12 +14,12 @@ class BillingService extends Service
 {
     /**
      * Detailed bill inquiry service provides the user with billing information along with details by taking the type of bill and its related ID.
-     * 
+     *
      * @param $type - type of bill (Water, Electricity, Gas)
      * @param $parameter - bill ID
-     * 
+     *
      * look at https://devbeta.finnotech.ir/billing-cc-inquiry-detail.html for more information
-     * 
+     *
      * @return array
      */
     public function billingInquiry($type, $parameter)
@@ -37,7 +37,7 @@ class BillingService extends Service
                 "parameter" => $parameter,
             ])->json();
         if (isset($response['status']) && $response['status'] == "DONE") {
-            BillingInquiry::create(array_merge($response["result"], ['track_id' => $trackId]));
+            BillingInquiry::create(array_merge($response["result"], ['track_id' => $trackId, "type" => $type]));
             return ["status" => true, "data" => $response["result"], "message" => null];
         }
         return ["status" => false, "data" => null, "message" => $response["error"]['message']];
@@ -45,8 +45,8 @@ class BillingService extends Service
 
     /**
      * Pay Bill
-     * 
-     * @param $payId 
+     *
+     * @param $payId
      * @param $billId
      */
     public function billPayment($payId, $billId)

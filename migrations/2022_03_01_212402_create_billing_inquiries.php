@@ -20,6 +20,7 @@ class CreateBillingInquiries extends Migration
             $table->string("BillId");
             $table->string("PayId");
             $table->string("Date");
+            $table->string("type");
             $table->timestamps();
         });
     }
