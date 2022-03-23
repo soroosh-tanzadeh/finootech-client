@@ -14,6 +14,7 @@ class BillingInquiry extends Model
         "type",
         "PayId",
         "Date",
+        "parameter",
         "track_id"
     ];
 }

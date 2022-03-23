@@ -37,7 +37,7 @@ class BillingService extends Service
                 "parameter" => $parameter,
             ])->json();
         if (isset($response['status']) && $response['status'] == "DONE") {
-            BillingInquiry::create(array_merge($response["result"], ['track_id' => $trackId, "type" => $type]));
+            BillingInquiry::create(array_merge($response["result"], ['track_id' => $trackId, "parameter" => $parameter, "type" => $type]));
             return ["status" => true, "data" => $response["result"], "message" => null];
         }
         return ["status" => false, "data" => null, "message" => $response["error"]['message']];
