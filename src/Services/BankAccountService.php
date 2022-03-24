@@ -50,6 +50,7 @@ class BankAccountService extends Service
         $requestBody = [
             "amount" => $amount,
             "description" => $description,
+            "reasonDescription" => $description,
             "destinationFirstname" => $accountOwnerFirstname,
             "destinationLastname" => $accountOwnerLastname,
             "destinationNumber" => $accountIBAN,
