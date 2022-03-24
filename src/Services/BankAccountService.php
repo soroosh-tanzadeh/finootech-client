@@ -42,7 +42,7 @@ class BankAccountService extends Service
     /**
      * Transfer from connected account to another bank-account using IBAN
      */
-    public function transferToAnotherAccount($amount, $description, $accountOwnerFirstname, $accountOwnerLastname, $accountIBAN, $paymentId)
+    public function transferToAnotherAccount($amount, $description, $reasonDescription, $accountOwnerFirstname, $accountOwnerLastname, $accountIBAN, $paymentId)
     {
         $trackId = "transfer_to_deposit_" . Str::uuid();
         $clientId = config("finnotech.client_id");
@@ -50,7 +50,7 @@ class BankAccountService extends Service
         $requestBody = [
             "amount" => $amount,
             "description" => $description,
-            "reasonDescription" => $description,
+            "reasonDescription" => $reasonDescription,
             "destinationFirstname" => $accountOwnerFirstname,
             "destinationLastname" => $accountOwnerLastname,
             "destinationNumber" => $accountIBAN,
