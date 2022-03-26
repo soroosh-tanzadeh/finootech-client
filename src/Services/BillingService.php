@@ -2,6 +2,7 @@
 
 namespace Soroosh\FinnotechClient\Services;
 
+use Illuminate\Support\Facades\Cache;
 use Soroosh\FinnotechClient\FinnotechClient;
 use Illuminate\Support\Str;
 use Soroosh\FinnotechClient\Exceptions\InvalidBillTypeException;
@@ -26,21 +27,17 @@ class BillingService extends Service
     {
         if (!in_array($type, ["Water", "Electricity", "Gas", "Tel", "TelNow", "Mobile", "MobileNow", "Electricity-standard"])) {
             throw new InvalidBillTypeException(422);
-        } elseif (in_array($type, ["Water", "Electricity", "Gas", "Electricity-standard"])) {
-            $result = BillingInquiry::query()->where("type", $type)->where("parameter", $parameter)->whereDate("created_at", ">=", now()->subDays(2))->first();
-            if ($result instanceof BillingInquiry) {
-                return ["status" => true, "data" => $result->toArray(), "message" => null];
-            }
         }
+
         $clientId = config("finnotech.client_id");
         $trackId = Str::uuid();
-        $response = $this->client
+        $response = Cache::remember($trackId . "_$type", 3600 * 48, fn () => $this->client
             ->createAuthorizedRequest("billing:cc-inquiry:get")
             ->get("/billing/v2/clients/{$clientId}/billingInquiry", [
                 "trackId" => $trackId,
                 "type" => $type,
                 "parameter" => $parameter,
-            ])->json();
+            ])->json());
         if (isset($response['status']) && $response['status'] == "DONE") {
             BillingInquiry::create(array_merge($response["result"], ['track_id' => $trackId, "parameter" => $parameter, "type" => $type]));
             return ["status" => true, "data" => $response["result"], "message" => null];
