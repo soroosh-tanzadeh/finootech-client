@@ -8,6 +8,13 @@ class BillingInquiry extends Model
 {
     protected $table = "billing_inquiries";
 
+    protected $hidden = [
+        "created_at",
+        "updated_at",
+        "parameter",
+        "type"
+    ];
+
     protected $fillable = [
         "Amount",
         "BillId",
