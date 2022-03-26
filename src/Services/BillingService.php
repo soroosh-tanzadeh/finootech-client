@@ -25,13 +25,14 @@ class BillingService extends Service
      */
     public function billingInquiry($type, $parameter)
     {
+        $longBills = ["Water", "Electricity", "Gas", "Tel", "Mobile", "Electricity-standard"];
         if (!in_array($type, ["Water", "Electricity", "Gas", "Tel", "TelNow", "Mobile", "MobileNow", "Electricity-standard"])) {
             throw new InvalidBillTypeException(422);
         }
 
         $clientId = config("finnotech.client_id");
         $trackId = Str::uuid();
-        $response = Cache::remember($trackId . "_$type", 3600 * 48, fn () => $this->client
+        $response = Cache::remember($parameter . "_$type", in_array($type, $longBills) ? 3600 * 48 : 10 * 60, fn () => $this->client
             ->createAuthorizedRequest("billing:cc-inquiry:get")
             ->get("/billing/v2/clients/{$clientId}/billingInquiry", [
                 "trackId" => $trackId,
