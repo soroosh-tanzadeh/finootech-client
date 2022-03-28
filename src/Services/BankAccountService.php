@@ -62,7 +62,21 @@ class BankAccountService extends Service
         if ($response['status'] == "DONE") {
             $result = $response['result'];
             $result['track_id'] = $trackId;
-            return ["status" => true, "data" => $response["result"], "message" => null];
+            return ["status" => true, "data" => $result, "message" => null];
+        }
+        return ["status" => false, "data" => null, "message" => $response["error"]['message']];
+    }
+
+    public function transferInquiry($inquiryTrackId)
+    {
+        $trackId = "inquiry_transfer_to_deposit_" . Str::uuid();
+        $clientId = config("finnotech.client_id");
+        $response  = $this->client->createAuthorizedRequest("oak:inquiry-transfer:get")
+            ->get("/oak/v2/clients/{$clientId}/transferInquiry", ["trackId" => $trackId, "inquiryTrackId" => $inquiryTrackId]);
+        if ($response['status'] == "DONE") {
+            $result = $response['result'];
+            $result['track_id'] = $trackId;
+            return ["status" => true, "data" => $result, "message" => null];
         }
         return ["status" => false, "data" => null, "message" => $response["error"]['message']];
     }
