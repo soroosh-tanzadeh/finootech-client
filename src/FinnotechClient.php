@@ -55,7 +55,7 @@ class FinnotechClient
         } else {
             Log::debug("finnotech-client-error", $data);
             if ($json) {
-                return ["status" => false, "messages" => "Error while creating client"];
+                return ["status" => false, "data" => $data, "messages" => "Error while creating client"];
             }
             return view("vendor.finnotech.bank-connected", ['status_color' => "status-failed", "status_text" => "ایجاد توکن دسترسی به حساب بانکی ناموفق بود."]);
         }

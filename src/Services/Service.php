@@ -12,4 +12,9 @@ class Service
     {
         $this->client = $client;
     }
+
+    public function getClient(): FinnotechClient
+    {
+        return $this->client;
+    }
 }
