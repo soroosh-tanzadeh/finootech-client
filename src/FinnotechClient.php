@@ -44,7 +44,7 @@ class FinnotechClient
             ->post($this->oauthProvider->getBaseAccessTokenUrl([]));
         $data = $response->json();
         if ($data["status"] == "DONE") {
-            Client::query()->whereJsonContains("scopes", $data['scopes'])->delete();
+            Client::query()->whereJsonContains("scopes", $data['result']['scopes'])->delete();
             $client = Client::create($data['result']);
             $client->type = "CLIENT-CREDENTIAL";
             $client->save();
@@ -119,7 +119,7 @@ class FinnotechClient
             ->post($this->oauthProvider->getBaseAccessTokenUrl([]));
         $data = $response->json();
         if ($data["status"] == "DONE") {
-            Client::query()->whereJsonContains("scopes", $data['scopes'])->delete();
+            Client::query()->whereJsonContains("scopes", $data['result']['scopes'])->delete();
             $client = Client::create($data['result']);
             $client->type = "CODE";
             $client->save();
