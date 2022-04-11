@@ -78,6 +78,6 @@ class BankAccountService extends Service
             $result['track_id'] = $trackId;
             return ["status" => true, "data" => $result, "message" => null];
         }
-        return ["status" => false, "data" => null, "message" => $response["error"]['message']];
+        return ["status" => false, "data" => $result, "message" => $response["error"]['message']];
     }
 }
