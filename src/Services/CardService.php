@@ -2,6 +2,7 @@
 
 namespace Soroosh\FinnotechClient\Services;
 
+use Illuminate\Support\Facades\Log;
 use Soroosh\FinnotechClient\FinnotechClient;
 use Illuminate\Support\Str;
 
@@ -59,9 +60,10 @@ class CardService extends Service
             ->createAuthorizedRequest("facility:card-to-iban:get")
             ->get("/facility/v2/clients/{$clientId}/cardToIban", ["trackId" => Str::uuid(), "version" => 2, "card" => $cardNumber])
             ->json();
-        if ($response['status'] == "DONE") {
+        Log::debug("Finnotech", $response);
+        if ($response['status'] == "DONE" && in_array($response["result"]['depositStatus'], ["02", "03"])) {
             return ["status" => true, "data" => $response["result"], "message" => null];
         }
-        return ["status" => false, "data" => null, "message" => $response["error"]['message']];
+        return ["status" => false, "data" => null, "message" => isset($response["error"]) ?  $response["error"]['message'] : "حساب قابل واریز نمی‌باشد"];
     }
 }
