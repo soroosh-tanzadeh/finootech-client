@@ -71,8 +71,8 @@ class BankAccountService extends Service
     {
         $trackId = "inquiry_transfer_to_deposit_" . Str::uuid();
         $clientId = config("finnotech.client_id");
-        $response  = $this->client->createAuthorizedRequest("oak:inquiry-transfer:get")
-            ->get("/oak/v2/clients/{$clientId}/transferInquiry", ["trackId" => $trackId, "inquiryTrackId" => $inquiryTrackId]);
+        $response  = $this->client->createAuthorizedRequest("oak:proxy-inquiry:get")
+            ->get("/oak/v2/clients/{$clientId}/proxyInquiry", ["trackId" => $trackId, "inquiryTrackId" => $inquiryTrackId]);
         if ($response['status'] == "DONE") {
             $result = $response['result'];
             $result['track_id'] = $trackId;
